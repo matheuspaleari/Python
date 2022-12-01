@@ -1,0 +1,90 @@
+# Programa de comparações de pokemons
+# Bibliotecas
+import requests
+
+f = 0
+
+
+def main(): # Inserção de dados do pokemon
+    global pokemon
+    global status
+    pokemon = str(input('Insira o tipo do pokemon: '))
+    status = str(input('Insira o status a ser procurado: '))
+    api = f'https://pokeapi.co/api/v2/type/{pokemon}'
+    res = requests.get(api)
+    poke = res.json()
+    pegarpokemon(poke)
+
+
+def main2(): # Mostra o Mais forte
+    apo = f'https://pokeapi.co/api/v2/pokemon/{m}'
+    res = requests.get(apo)
+    poke = res.json()
+    print(f'O pokemon mais forte é o {m} : ')
+    pegarpokemon2(poke)
+
+
+def main3(): # Mesma coisa que o main
+    pokemon = str(input('Insira o tipo do pokemon: '))
+    api = f'https://pokeapi.co/api/v2/type/{pokemon}'
+    res = requests.get(api)
+    poke = res.json()
+    pegarpokemon3(poke)
+
+
+def pegarpokemon(poke): # Retorna o pokemon com o atributo escolhido mais alto
+    global f, m
+    m = 0
+    print('-=' * 15)
+    print('Essa é a lista de pokemons !!!!')
+    for i in poke['pokemon']:
+        url = (i['pokemon']['url'])
+        api = url
+        res = requests.get(api)
+        poke = res.json()
+        for i in poke['stats']:
+            nome = str(i['stat']['name'])
+            estatus = int(i['base_stat'])
+            if nome == status:
+                if f < estatus:
+                    f = estatus
+                    m = (poke['name'])
+                    print(m)
+
+
+def pegarpokemon2(poke): # Apenas mostra o pokemon mais forte
+    for i in poke['stats']:
+        print(i['stat']['name'], end=' ')
+        print(i['base_stat'])
+
+
+def pegarpokemon3(poke): # Mesma coisa que o pegarpokemon 
+    global f, m
+    print('-=' * 15)
+    print('essa é a lista de pokemons !!!!')
+    for i in poke['pokemon']:
+        url = (i['pokemon']['url'])
+        api = url
+        res = requests.get(api)
+        poke = res.json()
+        for i in poke['stats']:
+            nome = str(i['stat']['name'])
+            estatus = int(i['base_stat'])
+            if nome == status:
+                if f < estatus:
+                    f = estatus
+                    m = (poke['name'])
+    print(m)
+
+
+main() #Inicio do Programa
+while True:
+    escolha = str(input('Deseja escolher outro tipo para comparar tambem? [Sim/Nao] ')).lower()
+    if escolha == 'sim':
+        main3()
+    else:
+        break
+
+print('-=' * 20)
+main2()
+
